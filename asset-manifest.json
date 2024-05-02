@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/%7Bgreek-tax-calculator%7D/static/css/main.4b1c4cff.css",
+    "main.js": "/%7Bgreek-tax-calculator%7D/static/js/main.7b2f63e6.js",
+    "index.html": "/%7Bgreek-tax-calculator%7D/index.html",
+    "main.4b1c4cff.css.map": "/%7Bgreek-tax-calculator%7D/static/css/main.4b1c4cff.css.map",
+    "main.7b2f63e6.js.map": "/%7Bgreek-tax-calculator%7D/static/js/main.7b2f63e6.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4b1c4cff.css",
+    "static/js/main.7b2f63e6.js"
+  ]
+}
