@@ -48,15 +48,38 @@ function TaxCalculator() {
                 <button className="btn btn-primary" onClick={calculate}>Υπολογισμός Φόρου</button>
             </div>
             {tax !== null && (
-                <>
-                    <br></br>
-                    <h5>Φορολογήσιμο Εισόδημα: {(income - expenses).toFixed(2)}€</h5>
-                    <h5>Εκτιμώμενος Φόρος: {tax.toFixed(2)}€</h5>
+                <div className="table-responsive mt-4">
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Περιγραφή</th>
+                                <th>Ποσό (σε EUR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Φορολογήσιμο Εισόδημα</td>
+                                <td>{(income - expenses).toFixed(2)}€</td>
+                            </tr>
+                            <tr>
+                                <td>Εκτιμώμενος Φόρος</td>
+                                <td>{tax.toFixed(2)}€</td>
+                            </tr>
+                            <tr>
+                                <td>Καθαρό Εισόδημα</td>
+                                <td>{(income - expenses - tax).toFixed(2)}€</td>
+                            </tr>
+                            <tr>
+                                <td>Μηνιαίο Καθαρό Εισόδημα</td>
+                                <td>{((income - expenses - tax) / 12).toFixed(2)}€</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <PieChartComponent data={pieChartData} />
-                </>
+                </div>
             )}
         </div>
-    );    
+    );       
 }
 
 function calculateTax(income, expenses, yearsOfOperation, annualTurnover, averageAnnualTurnover) {
