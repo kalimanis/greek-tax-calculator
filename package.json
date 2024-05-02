@@ -1,7 +1,7 @@
 {
   "name": "greek-tax-calculator",
   "version": "0.1.0",
-  "homepage": "https://{kalimanis}.github.io/{greek-tax-calculator}",
+  "homepage": "https://kalimanis.github.io/greek-tax-calculator",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
