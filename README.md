@@ -5,6 +5,8 @@
 
 This React-based application provides a simple interface for calculating income tax based on user inputs. The calculator considers various factors like income, expenses, and years of operation to compute the taxable income and estimated tax. It also displays this information visually using a pie chart.
 
+DEMO: https://kalimanis.github.io/greek-tax-calculator/
+
 🌟 Features
 -----------
 
