@@ -44,7 +44,7 @@ function TaxCalculator() {
                 <label>Ετήσιος τζίρος (σε EUR)</label>
                 <input type="number" className="form-control mb-2" value={annualTurnover} onChange={handleTurnoverChange} placeholder="Εισαγωγή ετήσιου τζίρου σε EUR" />
                 <label>Μέσος ετήσιος τζίρος (σε EUR)</label>
-                <input type="number" className="form-control mb-2" value={averageAnnualTurnover} onChange={handleAverageTurnoverChange} placeholder="Εισαγωγή μέσου ετήσιου τζίρου σε EUR" />
+                <input type="number" className="form-control mb-2" value={averageAnnualTurnover} onChange={handleAverageTurnoverChange} placeholder="Εισαγωγή μέσου ετήσιου τζίρου ΚΑΔ σε EUR" />
                 <button className="btn btn-primary" onClick={calculate}>Υπολογισμός Φόρου</button>
             </div>
             {tax !== null && (
