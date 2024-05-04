@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import PieChartComponent from './PieChartComponent'; // Correct import, ensure path is correct
+import PieChartComponent from './PieChartComponent'; 
+import kadData from './kadData.json';
+import Select from 'react-select';
 
 function TaxCalculator() {
     const [income, setIncome] = useState('');
@@ -9,19 +11,40 @@ function TaxCalculator() {
     const [averageAnnualTurnover, setAverageAnnualTurnover] = useState('');
     const [tax, setTax] = useState(null);
     const [afterTaxIncome, setAfterTaxIncome] = useState(null);
+    const [selectedKAD, setSelectedKAD] = useState(''); // Added state for selected KAD
 
     const handleIncomeChange = event => setIncome(event.target.value);
     const handleExpensesChange = event => setExpenses(event.target.value);
     const handleYearsChange = event => setYearsOfOperation(event.target.value);
     const handleTurnoverChange = event => setAnnualTurnover(event.target.value);
-    const handleAverageTurnoverChange = event => setAverageAnnualTurnover(event.target.value);
+    const handleKADChange = selectedOption => {
+        setSelectedKAD(selectedOption);
+        setAverageAnnualTurnover(selectedOption ? selectedOption.value : '');
+    };
+
+    const kadOptions = kadData.map(kad => ({
+        label: `${kad['ΚΑΔ']} - ${kad['ΠΕΡΙΓΡΑΦΗ']}`,
+        value: kad['ΜΕΣΟΣ ΟΡΟΣ'].toString()
+    }));
+
+    const customStyles = {
+        placeholder: (provided) => ({
+            ...provided,
+            textAlign: 'left' // This ensures the placeholder text aligns to the left
+        }),
+        input: (provided) => ({
+            ...provided,
+            textAlign: 'left' // Ensure input text aligns to the left as well
+        })
+    };
 
     const calculate = () => {
         const parsedIncome = parseFloat(income);
-        if (!isNaN(parsedIncome) && !isNaN(parseFloat(expenses)) && !isNaN(parseFloat(yearsOfOperation)) && !isNaN(parseFloat(annualTurnover)) && !isNaN(parseFloat(averageAnnualTurnover))) {
-            const calculatedTax = calculateTax(parsedIncome, parseFloat(expenses), parseFloat(yearsOfOperation), parseFloat(annualTurnover), parseFloat(averageAnnualTurnover));
+        const parsedExpenses = parseFloat(expenses);
+        if (!isNaN(parsedIncome) && !isNaN(parsedExpenses) && !isNaN(parseFloat(yearsOfOperation)) && !isNaN(parseFloat(annualTurnover)) && selectedKAD) {
+            const calculatedTax = calculateTax(parsedIncome, parsedExpenses, parseFloat(yearsOfOperation), parseFloat(annualTurnover), averageAnnualTurnover);
             setTax(calculatedTax);
-            setAfterTaxIncome(parsedIncome - expenses);
+            setAfterTaxIncome(parsedIncome - calculatedTax);
         }
     };
 
@@ -43,8 +66,20 @@ function TaxCalculator() {
                 <input type="number" className="form-control mb-2" value={yearsOfOperation} onChange={handleYearsChange} placeholder="Εισαγωγή ετών λειτουργίας" />
                 <label>Ετήσιος τζίρος (σε EUR)</label>
                 <input type="number" className="form-control mb-2" value={annualTurnover} onChange={handleTurnoverChange} placeholder="Εισαγωγή ετήσιου τζίρου σε EUR" />
+                <label>ΚΑΔ</label>
+                <Select
+                    value={selectedKAD}
+                    onChange={handleKADChange}
+                    options={kadOptions}
+                    styles={customStyles}
+                    className="basic-single"
+                    classNamePrefix="select"
+                    isClearable
+                    isSearchable
+                    placeholder="Αναζήτηση ΚΑΔ"
+                />
                 <label>Μέσος ετήσιος τζίρος ΚΑΔ (σε EUR)</label>
-                <input type="number" className="form-control mb-2" value={averageAnnualTurnover} onChange={handleAverageTurnoverChange} placeholder="Εισαγωγή μέσου ετήσιου τζίρου ΚΑΔ σε EUR" />
+                <input type="text" className="form-control mb-2" value={averageAnnualTurnover} readOnly />             
                 <button className="btn btn-primary" onClick={calculate}>Υπολογισμός Φόρου</button>
             </div>
             {tax !== null && (
@@ -154,3 +189,4 @@ function getTaxAdjustmentFactors(years, turnover, avgTurnover, declaredIncome, t
 
 
 export default TaxCalculator;
+
