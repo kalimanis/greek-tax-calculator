@@ -12,6 +12,7 @@ function TaxCalculator() {
     const [tax, setTax] = useState(null);
     const [afterTaxIncome, setAfterTaxIncome] = useState(null);
     const [selectedKAD, setSelectedKAD] = useState(''); // Added state for selected KAD
+    const [isKADSelected, setIsKADSelected] = useState(false); // State to track if KAD is selected
 
     const handleIncomeChange = event => setIncome(event.target.value);
     const handleExpensesChange = event => setExpenses(event.target.value);
@@ -19,7 +20,17 @@ function TaxCalculator() {
     const handleTurnoverChange = event => setAnnualTurnover(event.target.value);
     const handleKADChange = selectedOption => {
         setSelectedKAD(selectedOption);
-        setAverageAnnualTurnover(selectedOption ? selectedOption.value : '');
+        if (selectedOption) {
+            setAverageAnnualTurnover(selectedOption.value);
+            setIsKADSelected(true);
+        } else {
+            setIsKADSelected(false);
+        }
+    };
+    const handleAverageTurnoverChange = event => {
+        if (!isKADSelected) {
+            setAverageAnnualTurnover(event.target.value);
+        }
     };
 
     const kadOptions = kadData.map(kad => ({
@@ -79,7 +90,14 @@ function TaxCalculator() {
                     placeholder="Αναζήτηση ΚΑΔ"
                 />
                 <label>Μέσος ετήσιος τζίρος ΚΑΔ (σε EUR)</label>
-                <input type="text" className="form-control mb-2" value={averageAnnualTurnover} readOnly />             
+                <input 
+                    type="text" 
+                    className="form-control mb-2" 
+                    value={averageAnnualTurnover} 
+                    onChange={handleAverageTurnoverChange}
+                    readOnly={isKADSelected} 
+                    placeholder="Εισάγετε ή επιλέξτε τον μέσο όρο τζίρου"
+                />         
                 <button className="btn btn-primary" onClick={calculate}>Υπολογισμός Φόρου</button>
             </div>
             {tax !== null && (
